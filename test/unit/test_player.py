@@ -1,0 +1,47 @@
+import pytest
+
+from src.concrete.standard_player import StandardPlayer
+
+
+def test_player_has_name_p1():
+    player = StandardPlayer("p1")
+
+    assert player.name == "p1"
+
+
+def test_player_has_name_p2():
+    player = StandardPlayer("p2")
+
+    assert player.name == "p2"
+
+
+def test_player_has_score_0():
+    player = StandardPlayer("")
+
+    assert player.score == 0
+
+
+def test_player_score_can_be_updated_to_4():
+    player = StandardPlayer("")
+
+    new_score = 4
+    player.score = new_score
+
+    assert player.score == new_score
+
+
+def test_player_score_can_be_updated_to_3():
+    player = StandardPlayer("")
+
+    new_score = 3
+    player.score = new_score
+
+    assert player.score == new_score
+
+
+def test_player_score_can_not_be_negative():
+    player = StandardPlayer("")
+
+    new_score = -1
+    with pytest.raises(ValueError):
+        player.score = new_score
