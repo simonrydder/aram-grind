@@ -12,11 +12,6 @@ class Team(ABC):
     def players(self) -> Sequence[Player]:
         pass
 
-    # @players.setter
-    # @abstractmethod
-    # def players(self, new_players: Sequence[Player]) -> None:
-    #     pass
-
     @abstractmethod
     def add_player(self, new_player: Player) -> None:
         pass
@@ -26,11 +21,6 @@ class Team(ABC):
     def champions(self) -> Sequence[Champion]:
         pass
 
-    # @champions.setter
-    # @abstractmethod
-    # def champions(self, new_champions: Sequence[Champion]) -> None:
-    #     pass
-
     @abstractmethod
     def add_champion(self, new_champion: Champion) -> None:
         pass
@@ -38,4 +28,8 @@ class Team(ABC):
     @property
     @abstractmethod
     def size(self) -> int:
+        pass
+
+    @abstractmethod
+    def reset(self) -> None:
         pass

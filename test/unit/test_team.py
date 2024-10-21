@@ -90,3 +90,19 @@ def test_team_are_not_allowed_second_champion(aatrox):
 
     with pytest.raises(TooManyChampionsError):
         team.add_champion(aatrox)
+
+
+def test_team_has_no_players_after_reset():
+    team = StandardTeam(2)
+    team.add_player(StandardPlayer())
+    team.reset()
+
+    assert len(team.players) == 0
+
+
+def test_team_has_no_champions_after_reset(aatrox):
+    team = StandardTeam(2)
+    team.add_champion(aatrox)
+    team.reset()
+
+    assert len(team.champions) == 0

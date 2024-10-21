@@ -44,3 +44,7 @@ class StandardTeam(Team):
     @property
     def size(self) -> int:
         return self._size
+
+    def reset(self) -> None:
+        self._players = []
+        self._champs = []
