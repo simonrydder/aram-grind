@@ -6,17 +6,18 @@ class StandardChampion(Champion):
     def __init__(self, data: ChampionData) -> None:
         super().__init__()
 
+        self._available: bool = True
         self._name: str = data.name
 
     @property
     def available(self) -> bool:
-        return False
+        return self._available
 
     def disable(self) -> None:
-        return super().disable()
+        self._available = False
 
     def enable(self) -> None:
-        return super().enable()
+        self._available = True
 
     @property
     def name(self) -> str:
