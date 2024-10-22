@@ -45,3 +45,32 @@ def test_player_score_can_not_be_negative():
     new_score = -1
     with pytest.raises(ValueError):
         player.score = new_score
+
+
+def test_that_player_dict_has_key_name():
+    player = StandardPlayer("1")
+    dct = player.to_dict()
+
+    assert "name" in dct.keys()
+
+
+def test_that_player_dict_has_name_value_1():
+    player = StandardPlayer("1")
+    dct = player.to_dict()
+
+    assert dct.get("name") == "1"
+
+
+def test_that_player_dict_has_key_score():
+    p = StandardPlayer("1")
+    dct = p.to_dict()
+
+    assert "score" in dct.keys()
+
+
+def test_that_player_dict_has_score_value_2():
+    p = StandardPlayer("1")
+    p.score = 2
+    dct = p.to_dict()
+
+    assert dct.get("score") == 2

@@ -1,4 +1,4 @@
-from src.interfaces.player import Player
+from src.interfaces.player import Player, PlayerDict
 
 
 class StandardPlayer(Player):
@@ -22,3 +22,6 @@ class StandardPlayer(Player):
             raise ValueError("Score must be a non-negative integer")
 
         self._score = new_score
+
+    def to_dict(self) -> PlayerDict:
+        return PlayerDict(name=self._name, score=self._score)

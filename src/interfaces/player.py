@@ -1,4 +1,10 @@
 from abc import ABC, abstractmethod
+from typing import TypedDict
+
+
+class PlayerDict(TypedDict):
+    name: str
+    score: int
 
 
 class Player(ABC):
@@ -15,4 +21,8 @@ class Player(ABC):
     @score.setter
     @abstractmethod
     def score(self, new_score: int) -> None:
+        pass
+
+    @abstractmethod
+    def to_dict(self) -> PlayerDict:
         pass
