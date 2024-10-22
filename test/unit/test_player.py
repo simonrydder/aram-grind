@@ -1,6 +1,7 @@
 import pytest
 
 from src.concrete.standard_player import StandardPlayer
+from src.interfaces.player import PlayerDict
 
 
 def test_player_has_name_p1():
@@ -74,3 +75,17 @@ def test_that_player_dict_has_score_value_2():
     dct = p.to_dict()
 
     assert dct.get("score") == 2
+
+
+def test_that_player_from_dict_has_name_p2():
+    dct = PlayerDict(name="p2", score=0)
+    p = StandardPlayer("").from_dict(dct)
+
+    assert p.name == "p2"
+
+
+def test_that_player_from_dict_has_score_3():
+    dct = PlayerDict(name="p1", score=3)
+    p = StandardPlayer("").from_dict(dct)
+
+    assert p.score == 3

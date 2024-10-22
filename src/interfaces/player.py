@@ -26,3 +26,7 @@ class Player(ABC):
     @abstractmethod
     def to_dict(self) -> PlayerDict:
         pass
+
+    @abstractmethod
+    def from_dict(self, dct: PlayerDict) -> "Player":
+        pass
