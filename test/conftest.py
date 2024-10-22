@@ -1,10 +1,8 @@
 from collections.abc import Iterator
-from typing import Callable
 
 import pytest
 
 from src.concrete.standard_champion import StandardChampion
-from src.interfaces.champion import Champion
 from src.utils.lol import ChampionData, Language, get_champion_data, get_data_url
 
 
@@ -27,20 +25,20 @@ def champion_data(patch: str, language: str) -> Iterator[dict[str, ChampionData]
 
 
 @pytest.fixture(scope="function")
-def champ_int(champion_data: dict[str, ChampionData]) -> Callable[[int], Champion]:
-    def _create_ith_champion(number: int) -> Champion:
-        data = list(champion_data.values())[number]
-        return StandardChampion(data)
-
-    return _create_ith_champion
+def aatrox_data(champion_data: dict[str, ChampionData]) -> Iterator[ChampionData]:
+    yield champion_data["Aatrox"]
 
 
 @pytest.fixture(scope="function")
-def champ_name(champion_data: dict[str, ChampionData]) -> Callable[[str], Champion]:
-    def _create_champion(name: str) -> Champion:
-        data = champion_data.get(name)
-        assert isinstance(data, ChampionData)
+def aatrox(aatrox_data: ChampionData) -> Iterator[StandardChampion]:
+    yield StandardChampion(aatrox_data)
 
-        return StandardChampion(data)
 
-    return _create_champion
+@pytest.fixture(scope="function")
+def ekko_data(champion_data: dict[str, ChampionData]) -> Iterator[ChampionData]:
+    yield champion_data["Ekko"]
+
+
+@pytest.fixture(scope="function")
+def ekko(ekko_data: ChampionData) -> Iterator[StandardChampion]:
+    yield StandardChampion(ekko_data)
