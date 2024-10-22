@@ -2,9 +2,10 @@ from abc import ABC, abstractmethod
 
 
 class Champion(ABC):
+
     @property
     @abstractmethod
-    def name(self) -> str:
+    def available(self) -> bool:
         pass
 
     @abstractmethod
@@ -13,4 +14,9 @@ class Champion(ABC):
 
     @abstractmethod
     def enable(self) -> None:
+        pass
+
+    @property
+    @abstractmethod
+    def name(self) -> str:
         pass

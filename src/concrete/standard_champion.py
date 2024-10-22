@@ -9,11 +9,15 @@ class StandardChampion(Champion):
         self._name: str = data.name
 
     @property
-    def name(self) -> str:
-        return self._name
+    def available(self) -> bool:
+        return False
 
     def disable(self) -> None:
         return super().disable()
 
     def enable(self) -> None:
         return super().enable()
+
+    @property
+    def name(self) -> str:
+        return self._name
