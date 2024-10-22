@@ -20,10 +20,12 @@ class StandardChampion(Champion):
         self._available = True
 
     def to_dict(self) -> ChampionState:
-        return super().to_dict()
+        state = ChampionState(available=self._available)
+        return state
 
     def from_dict(self, state: ChampionState) -> Champion:
-        return super().from_dict(state)
+        self._available = state.get("available")
+        return self
 
     @property
     def name(self) -> str:
