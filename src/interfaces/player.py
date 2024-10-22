@@ -28,5 +28,5 @@ class Player(ABC):
         pass
 
     @abstractmethod
-    def from_dict(self, dct: PlayerState) -> "Player":
+    def from_dict(self, state: PlayerState) -> "Player":
         pass

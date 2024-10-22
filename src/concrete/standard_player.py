@@ -26,7 +26,7 @@ class StandardPlayer(Player):
     def to_dict(self) -> PlayerState:
         return PlayerState(name=self._name, score=self._score)
 
-    def from_dict(self, dct: PlayerState) -> Player:
-        self._name = dct.get("name")
-        self._score = dct.get("score")
+    def from_dict(self, state: PlayerState) -> Player:
+        self._name = state.get("name")
+        self._score = state.get("score")
         return self
