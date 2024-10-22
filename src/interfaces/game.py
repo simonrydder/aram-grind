@@ -7,6 +7,10 @@ from src.interfaces.team import Team
 
 
 class Game(ABC):
+    @abstractmethod
+    def __init__(self, players: Sequence[Player]) -> None:
+        super().__init__()
+
     @property
     @abstractmethod
     def players(self) -> Sequence[Player]:
@@ -32,23 +36,11 @@ class Game(ABC):
         pass
 
     @abstractmethod
-    def get_team_players(self, team: Team) -> Sequence[Player]:
-        pass
-
-    @abstractmethod
-    def get_team_champions(self, team: Team) -> Sequence[Champion]:
-        pass
-
-    @abstractmethod
     def update_winners(self, team: Team) -> None:
         pass
 
     @abstractmethod
-    def get_score(self, player: Player) -> int:
-        pass
-
-    @abstractmethod
-    def get_scoreboard(self) -> Sequence[tuple[str, int]]:
+    def get_scoreboard(self) -> Sequence[Player]:
         pass
 
     @abstractmethod
