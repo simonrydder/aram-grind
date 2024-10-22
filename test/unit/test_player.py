@@ -48,44 +48,44 @@ def test_player_score_can_not_be_negative():
         player.score = new_score
 
 
-def test_that_player_dict_has_key_name():
+def test_that_player_state_has_key_name():
     player = StandardPlayer("1")
-    dct = player.to_dict()
+    state = player.to_dict()
 
-    assert "name" in dct.keys()
+    assert "name" in state.keys()
 
 
-def test_that_player_dict_has_name_value_1():
+def test_that_player_state_has_name_value_1():
     player = StandardPlayer("1")
-    dct = player.to_dict()
+    state = player.to_dict()
 
-    assert dct.get("name") == "1"
+    assert state.get("name") == "1"
 
 
-def test_that_player_dict_has_key_score():
+def test_that_player_state_has_key_score():
     p = StandardPlayer("1")
-    dct = p.to_dict()
+    state = p.to_dict()
 
-    assert "score" in dct.keys()
+    assert "score" in state.keys()
 
 
-def test_that_player_dict_has_score_value_2():
+def test_that_player_state_has_score_value_2():
     p = StandardPlayer("1")
     p.score = 2
-    dct = p.to_dict()
+    state = p.to_dict()
 
-    assert dct.get("score") == 2
+    assert state.get("score") == 2
 
 
-def test_that_player_from_dict_has_name_p2():
-    dct = PlayerState(name="p2", score=0)
-    p = StandardPlayer("").from_dict(dct)
+def test_that_player_from_state_has_name_p2():
+    state = PlayerState(name="p2", score=0)
+    p = StandardPlayer("").from_dict(state)
 
     assert p.name == "p2"
 
 
 def test_that_player_from_dict_has_score_3():
-    dct = PlayerState(name="p1", score=3)
-    p = StandardPlayer("").from_dict(dct)
+    state = PlayerState(name="p1", score=3)
+    p = StandardPlayer("").from_dict(state)
 
     assert p.score == 3
