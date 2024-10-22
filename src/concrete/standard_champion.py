@@ -11,3 +11,9 @@ class StandardChampion(Champion):
     @property
     def name(self) -> str:
         return self._name
+
+    def disable(self) -> None:
+        return super().disable()
+
+    def enable(self) -> None:
+        return super().enable()
