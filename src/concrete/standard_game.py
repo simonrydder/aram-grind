@@ -29,7 +29,8 @@ class StandardGame(Game):
 
     @property
     def champions(self) -> Sequence[Champion]:
-        return self._champions
+
+        return [champ for champ in self._champions if champ.available]
 
     @property
     def red(self) -> Team:
@@ -40,16 +41,53 @@ class StandardGame(Game):
         return self._blue
 
     def new_round(self) -> None:
-        return super().new_round()
+        self._assign_players()
+        self._assign_champions()
 
-    def update_winners(self, team: Team) -> None:
-        return super().update_winners(team)
+    def _assign_champions(self):
+        champions = iter(self.champions)
+        for _ in range(self.red.size):
+            self.red.add_champion(next(champions))
+
+        for _ in range(self.blue.size):
+            self.blue.add_champion(next(champions))
+
+    def _assign_players(self) -> None:
+        players = iter(self.players)
+        for _ in range(self.red.size):
+            self.red.add_player(next(players))
+
+        for _ in range(self.blue.size):
+            self.blue.add_player(next(players))
+
+    def update_winners(self, winner: Team) -> None:
+        loser = self._get_opposite_team(winner)
+
+        self._update_team_score(winner)
+
+        self._disable_team_champions(winner)
+        self._disable_team_champions(loser)
+
+        winner.reset()
+        loser.reset()
+
+    def _update_team_score(self, team: Team):
+        for player in team.players:
+            player.score += 1
+
+    def _get_opposite_team(self, team: Team) -> Team:
+        return self.blue if team == self.red else self.red
+
+    def _disable_team_champions(self, team: Team) -> None:
+        for champ in team.champions:
+            champ.disable()
 
     def get_scoreboard(self) -> Sequence[Player]:
-        return super().get_scoreboard()
+        return sorted(self.players, key=lambda p: p.score, reverse=True)
 
     def get_winner(self) -> Player:
-        return super().get_winner()
+        score_board = self.get_scoreboard()
+        return score_board[0]
 
     def save_game(self, file_name: str) -> None:
         return super().save_game(file_name)

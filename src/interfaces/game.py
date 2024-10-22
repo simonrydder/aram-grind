@@ -36,7 +36,7 @@ class Game(ABC):
         pass
 
     @abstractmethod
-    def update_winners(self, team: Team) -> None:
+    def update_winners(self, winner: Team) -> None:
         pass
 
     @abstractmethod
