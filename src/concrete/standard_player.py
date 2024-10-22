@@ -1,4 +1,4 @@
-from src.interfaces.player import Player, PlayerDict
+from src.interfaces.player import Player, PlayerState
 
 
 class StandardPlayer(Player):
@@ -23,10 +23,10 @@ class StandardPlayer(Player):
 
         self._score = new_score
 
-    def to_dict(self) -> PlayerDict:
-        return PlayerDict(name=self._name, score=self._score)
+    def to_dict(self) -> PlayerState:
+        return PlayerState(name=self._name, score=self._score)
 
-    def from_dict(self, dct: PlayerDict) -> Player:
+    def from_dict(self, dct: PlayerState) -> Player:
         self._name = dct.get("name")
         self._score = dct.get("score")
         return self
