@@ -1,11 +1,13 @@
+import json
 from math import ceil, floor
 from typing import Sequence
 
 from src.concrete.standard_champion import StandardChampion
+from src.concrete.standard_player import StandardPlayer
 from src.concrete.standard_team import StandardTeam
-from src.interfaces.champion import Champion
-from src.interfaces.game import Game
-from src.interfaces.player import Player
+from src.interfaces.champion import Champion, ChampionState
+from src.interfaces.game import Game, GameState
+from src.interfaces.player import Player, PlayerState
 from src.interfaces.team import Team
 from src.utils.lol import Language, get_champion_data, get_data_url
 
@@ -90,10 +92,32 @@ class StandardGame(Game):
         return score_board[0]
 
     def save_game(self, file_name: str) -> None:
-        return super().save_game(file_name)
+        game_state: GameState = {
+            "players": [p.to_dict() for p in self._players],
+            "champions": {c.name: c.to_dict() for c in self._champions},
+        }
+
+        with open(file_name, "w") as f:
+            json.dump(game_state, f)
 
     def load_game(self, file_name: str) -> None:
-        return super().load_game(file_name)
+        with open(file_name, "r") as f:
+            game_state: GameState = json.load(f)
+
+        self._load_player_states(game_state.get("players"))
+
+        self._load_champion_states(game_state.get("champions"))
+
+    def _load_player_states(self, player_states: Sequence[PlayerState]):
+        self._players = [StandardPlayer().from_dict(ps) for ps in player_states]
+
+    def _load_champion_states(self, champion_states: dict[str, ChampionState]):
+        for champ in self._champions:
+            state = champion_states.get(champ.name)
+            if state is None:
+                continue
+
+            champ.from_dict(state)
 
     def end_game(self) -> None:
         return super().end_game()

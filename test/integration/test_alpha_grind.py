@@ -1,4 +1,7 @@
-from typing import Iterator, Sequence
+import json
+import os
+from copy import deepcopy
+from typing import Any, Iterator, Sequence
 
 import pytest
 
@@ -9,14 +12,44 @@ from src.interfaces.player import Player
 
 
 @pytest.fixture(scope="function")
-def players() -> Iterator[Sequence[Player]]:
+def players() -> Sequence[Player]:
 
-    yield [StandardPlayer(str(i + 1)) for i in range(6)]
+    return [StandardPlayer(str(i + 1)) for i in range(6)]
 
 
 @pytest.fixture(scope="function")
-def game(players: Sequence[Player]) -> Iterator[Game]:
-    yield StandardGame(players)
+def game(players: Sequence[Player]) -> Game:
+    return StandardGame(deepcopy(players))
+
+
+@pytest.fixture(scope="function")
+def save_file() -> Iterator[str]:
+    file = "save_file.json"
+    yield file
+
+    os.remove(file)
+
+
+@pytest.fixture(scope="function")
+def long_game(players: Sequence[Player]) -> Game:
+    game = StandardGame(deepcopy(players))
+
+    game.new_round()
+    game.update_winners(game.red)
+    game.new_round()
+    game.update_winners(game.red)
+    game.new_round()
+    game.update_winners(game.blue)
+
+    return game
+
+
+@pytest.fixture(scope="function")
+def data(long_game: Game, save_file: str) -> Iterator[dict[str, Any]]:
+    long_game.save_game(save_file)
+
+    with open(save_file, "r") as f:
+        yield json.load(f)
 
 
 def test_that_game_has_6_players(game: Game):
@@ -228,3 +261,31 @@ def test_that_champions_in_second_round_is_new(game: Game):
     new_champions = list(game.red.champions) + list(game.blue.champions)
     for new_champ in new_champions:
         assert new_champ not in played_champions
+
+
+def test_that_save_game_create_saved_file(long_game: Game, save_file: str):
+    long_game.save_game(save_file)
+
+    assert os.path.exists(save_file)
+
+
+def test_that_loaded_game_has_player_1_with_score_2(
+    game: Game, long_game: Game, save_file: str
+):
+    long_game.save_game(save_file)
+    game.load_game(save_file)
+
+    player = game.players[0]
+
+    assert player.score == 2
+
+
+def test_that_loaded_game_has_first_able_champion_(
+    game: Game, long_game: Game, save_file: str
+):
+    long_game.save_game(save_file)
+    game.load_game(save_file)
+
+    champ = game.champions[0]
+
+    assert champ.name == "Briar"
