@@ -13,7 +13,7 @@ class GameState(TypedDict):
 
 class Game(ABC):
     @abstractmethod
-    def __init__(self, players: Sequence[Player]) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
     @property

@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from math import ceil, floor
 from typing import Sequence
 
@@ -14,16 +15,9 @@ from src.utils.lol import Language, get_champion_data, get_data_url
 
 class StandardGame(Game):
 
-    def __init__(self, players: Sequence[Player]) -> None:
-        super().__init__(players)
-        self._players = players
-
-        self._red = StandardTeam(ceil(len(players) / 2))
-        self._blue = StandardTeam(floor(len(players) / 2))
-
-        data_url = get_data_url("14.19.1", Language.US)
-        data = get_champion_data(data_url)
-        self._champions = [StandardChampion(cd) for _, cd in data.data.items()]
+    def __init__(self) -> None:
+        super().__init__()
+        self.initialize_game([])
 
     @property
     def players(self) -> Sequence[Player]:
@@ -41,6 +35,19 @@ class StandardGame(Game):
     @property
     def blue(self) -> Team:
         return self._blue
+
+    def initialize_game(self, players: Sequence[Player]) -> None:
+        self._players = deepcopy(players)
+
+        self._red = StandardTeam(ceil(len(self._players) / 2))
+        self._blue = StandardTeam(floor(len(self._players) / 2))
+
+        self._initialize_champions()
+
+    def _initialize_champions(self) -> None:
+        data_url = get_data_url("14.19.1", Language.US)
+        data = get_champion_data(data_url)
+        self._champions = [StandardChampion(cd) for _, cd in data.data.items()]
 
     def new_round(self) -> None:
         self._assign_players()
@@ -105,7 +112,6 @@ class StandardGame(Game):
             game_state: GameState = json.load(f)
 
         self._load_player_states(game_state.get("players"))
-
         self._load_champion_states(game_state.get("champions"))
 
     def _load_player_states(self, player_states: Sequence[PlayerState]):
@@ -124,4 +130,4 @@ class StandardGame(Game):
 
 
 if __name__ == "__main__":
-    StandardGame([])
+    StandardGame()

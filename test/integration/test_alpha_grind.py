@@ -1,6 +1,5 @@
 import json
 import os
-from copy import deepcopy
 from typing import Any, Iterator, Sequence
 
 import pytest
@@ -19,7 +18,9 @@ def players() -> Sequence[Player]:
 
 @pytest.fixture(scope="function")
 def game(players: Sequence[Player]) -> Game:
-    return StandardGame(deepcopy(players))
+    game = StandardGame()
+    game.initialize_game(players)
+    return game
 
 
 @pytest.fixture(scope="function")
@@ -32,7 +33,8 @@ def save_file() -> Iterator[str]:
 
 @pytest.fixture(scope="function")
 def long_game(players: Sequence[Player]) -> Game:
-    game = StandardGame(deepcopy(players))
+    game = StandardGame()
+    game.initialize_game(players)
 
     game.new_round()
     game.update_winners(game.red)
@@ -71,7 +73,8 @@ def test_that_red_team_has_size_3(game: Game):
 
 def test_that_red_team_has_size_2(players: Sequence[Player]):
     three_players = players[:3]
-    game = StandardGame(three_players)
+    game = StandardGame()
+    game.initialize_game(three_players)
     team = game.red
 
     assert team.size == 2
@@ -85,7 +88,8 @@ def test_that_blue_team_has_size_3(game: Game):
 
 def test_that_blue_team_has_size_1(players: Sequence[Player]):
     three_players = players[:3]
-    game = StandardGame(three_players)
+    game = StandardGame()
+    game.initialize_game(three_players)
     team = game.blue
 
     assert team.size == 1
