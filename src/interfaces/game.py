@@ -37,6 +37,10 @@ class Game(ABC):
         pass
 
     @abstractmethod
+    def initialize_game(self, players: Sequence[Player]) -> None:
+        pass
+
+    @abstractmethod
     def new_round(self) -> None:
         pass
 
