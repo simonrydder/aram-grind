@@ -80,8 +80,65 @@ def test_that_new_round_has_valid_red_team(client: TestClient, alpha: None):
 def test_that_new_round_retuns_teams(client: TestClient, alpha: None):
     res = client.get("/game/new_round")
 
-    json_respons = {
-        "red": {"players": ["Simon", "Alex", "Eskild"], "champions": ["Aatrox"]}
-    }
+    json_respons = [
+        {
+            "players": ["Simon", "Alex", "Eskild"],
+            "champions": ["Aatrox", "Ahri", "Akali"],
+        },
+        {
+            "players": ["Denze", "Hanghøj", "Peter"],
+            "champions": ["Akshan", "Alistar", "Amumu"],
+        },
+    ]
 
     assert res.json() == json_respons
+
+
+def test_that_round_winner_has_valid_route(client: TestClient, alpha: None):
+    client.get("/game/new_round")
+    response = client.post("/game/round_winner?team=red")
+
+    assert response.status_code == 200
+
+
+def test_that_round_winner_red_gives_simon_1_point(client: TestClient, alpha: None):
+    client.get("/game/new_round")
+    _ = client.post("/game/round_winner?team=red")
+
+    players = app.game.players
+    simon = players[0]
+
+    assert simon.score == 1
+
+
+def test_that_round_winner_blue_gives_denze_1_point(client: TestClient, alpha: None):
+    client.get("/game/new_round")
+    client.post("/game/round_winner?team=blue")
+
+    players = app.game.players
+    denze = players[3]
+
+    assert denze.score == 1
+
+
+def test_that_round_winner_with_invalid_team_raises_exception(
+    client: TestClient, alpha: None
+):
+    client.get("/game/new_round")
+    response = client.post("/game/round_winner?team=green")
+
+    assert response.status_code == 400
+
+
+def test_that_round_winner_red_has_return_message(client: TestClient, alpha: None):
+    client.get("/game/new_round")
+    response = client.post("/game/round_winner?team=red")
+
+    assert response.json() == {"message": "Updated round winner was 'red'"}
+
+
+def test_that_round_winner_blue_has_return_message(client: TestClient, alpha: None):
+    client.get("/game/new_round")
+    response = client.post("/game/round_winner?team=blue")
+
+    assert response.json() == {"message": "Updated round winner was 'blue'"}
