@@ -3,7 +3,7 @@ from typing import List, Sequence, Tuple
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from api.data.player import PlayerData
+from src.api.data.player import PlayerData
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
 from src.interfaces.game import Game
