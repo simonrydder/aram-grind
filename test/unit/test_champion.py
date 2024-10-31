@@ -26,20 +26,14 @@ def test_that_champion_is_available_after_enable(ekko: Champion):
     assert ekko.available
 
 
-def test_that_champion_dict_has_available(ekko: Champion):
-    dct = ekko.to_dict()
-
-    assert "available" in dct
-
-
 def test_that_champion_state_has_available_true(ekko: Champion):
-    dct = ekko.to_dict()
+    state = ekko.to_state()
 
-    assert dct.get("available")
+    assert state.available
 
 
 def test_that_champion_from_state_is_not_available(ekko: Champion):
-    state = ChampionState(available=False)
-    ekko.from_dict(state)
+    state = ChampionState(name=ekko.name, available=False)
+    ekko.from_state(state)
 
     assert not ekko.available

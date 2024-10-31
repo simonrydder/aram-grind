@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import TypedDict
 
-
-class ChampionState(TypedDict):
-    available: bool
+from src.states.champion import ChampionState
 
 
 class Champion(ABC):
@@ -26,9 +23,9 @@ class Champion(ABC):
         pass
 
     @abstractmethod
-    def to_dict(self) -> ChampionState:
+    def to_state(self) -> ChampionState:
         pass
 
     @abstractmethod
-    def from_dict(self, state: ChampionState) -> "Champion":
+    def from_state(self, state: ChampionState) -> "Champion":
         pass
