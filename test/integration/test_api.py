@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 
 from src.api import app
 from src.interfaces.game import Game
+from test.utils import api as api_utils
 
 
 @pytest.fixture(scope="function")
@@ -142,3 +143,24 @@ def test_that_round_winner_blue_has_return_message(client: TestClient, alpha: No
     response = client.post("/game/round_winner?team=blue")
 
     assert response.json() == {"message": "Updated round winner was 'blue'"}
+
+
+def test_that_get_scorebard_has_valid_route(client: TestClient, alpha: None):
+    response = client.get("/game/scoreboard")
+
+    assert response.status_code == 200
+
+
+def test_that_get_scoreboard_has_denze_first(client: TestClient, alpha: None):
+    client = api_utils.skip_rounds(client, 2, "blue")
+
+    response = client.get("/game/scoreboard")
+
+    assert response.json() == [
+        {"name": "Denze", "score": 2},
+        {"name": "Hanghøj", "score": 2},
+        {"name": "Peter", "score": 2},
+        {"name": "Simon", "score": 0},
+        {"name": "Alex", "score": 0},
+        {"name": "Eskild", "score": 0},
+    ]

@@ -16,6 +16,11 @@ class Message(BaseModel):
     message: str
 
 
+class PlayerData(BaseModel):
+    name: str
+    score: int
+
+
 @app.get("/")
 async def root() -> str:
     return "Hello, World!"
@@ -75,3 +80,11 @@ async def round_winner(team: str) -> Message:
         )
 
     return Message(message=f"Updated round winner was '{team}'")
+
+
+@app.get("/game/scoreboard")
+async def get_scoreboard() -> Sequence[PlayerData]:
+    global game
+    players = game.get_scoreboard()
+
+    return [PlayerData(name=p.name, score=p.score) for p in players]
