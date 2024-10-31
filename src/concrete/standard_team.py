@@ -3,6 +3,7 @@ from typing import Sequence
 from src.interfaces.champion import Champion
 from src.interfaces.player import Player
 from src.interfaces.team import Team
+from src.states.team import TeamState
 
 
 class TooManyPlayersError(Exception):
@@ -48,3 +49,9 @@ class StandardTeam(Team):
     def reset(self) -> None:
         self._players = []
         self._champs = []
+
+    def to_state(self) -> TeamState:
+        return TeamState(
+            players=[p.to_state() for p in self.players],
+            champions=[c.to_state() for c in self.champions],
+        )

@@ -3,6 +3,7 @@ from collections.abc import Iterator
 import pytest
 
 from src.concrete.standard_champion import StandardChampion
+from src.interfaces.champion import Champion
 from src.utils.lol import ChampionDragon, Language, get_champion_data, get_data_url
 
 
@@ -30,7 +31,7 @@ def aatrox_data(champion_data: dict[str, ChampionDragon]) -> Iterator[ChampionDr
 
 
 @pytest.fixture(scope="function")
-def aatrox(aatrox_data: ChampionDragon) -> Iterator[StandardChampion]:
+def aatrox(aatrox_data: ChampionDragon) -> Iterator[Champion]:
     yield StandardChampion(aatrox_data)
 
 
@@ -40,5 +41,5 @@ def ekko_data(champion_data: dict[str, ChampionDragon]) -> Iterator[ChampionDrag
 
 
 @pytest.fixture(scope="function")
-def ekko(ekko_data: ChampionDragon) -> Iterator[StandardChampion]:
+def ekko(ekko_data: ChampionDragon) -> Iterator[Champion]:
     yield StandardChampion(ekko_data)

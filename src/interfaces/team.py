@@ -3,10 +3,10 @@ from typing import Sequence
 
 from src.interfaces.champion import Champion
 from src.interfaces.player import Player
+from src.states.team import TeamState
 
 
 class Team(ABC):
-
     @property
     @abstractmethod
     def players(self) -> Sequence[Player]:
@@ -32,4 +32,8 @@ class Team(ABC):
 
     @abstractmethod
     def reset(self) -> None:
+        pass
+
+    @abstractmethod
+    def to_state(self) -> TeamState:
         pass
