@@ -4,6 +4,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 from src.api import app
+from src.concrete.standard_game import StandardGame
+from src.concrete.standard_player import StandardPlayer
 from src.interfaces.game import Game
 from test.utils import api as api_utils
 
@@ -78,19 +80,17 @@ def test_that_new_round_has_valid_red_team(client: TestClient, alpha: None):
     assert len(red.champions) == 3
 
 
-def test_that_new_round_retuns_teams(client: TestClient, alpha: None):
+def test_that_new_round_retuns_teams(client: TestClient, alpha: None, names: List[str]):
     res = client.get("/game/new_round")
 
-    json_respons = [
-        {
-            "players": ["Simon", "Alex", "Eskild"],
-            "champions": ["Aatrox", "Ahri", "Akali"],
-        },
-        {
-            "players": ["Denze", "Hanghøj", "Peter"],
-            "champions": ["Akshan", "Alistar", "Amumu"],
-        },
-    ]
+    true_game = StandardGame()
+    true_game.initialize_game([StandardPlayer(name=name) for name in names])
+    true_game.new_round()
+
+    red_state = true_game.red.to_state()
+    blue_state = true_game.blue.to_state()
+
+    json_respons = [red_state.model_dump(), blue_state.model_dump()]
 
     assert res.json() == json_respons
 

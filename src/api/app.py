@@ -3,10 +3,11 @@ from typing import List, Sequence, Tuple
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from src.api.data.player import PlayerData
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
 from src.interfaces.game import Game
+from src.states.player import PlayerState
+from src.states.team import TeamState
 
 app = FastAPI()
 
@@ -38,27 +39,15 @@ async def add_players(names: List[str]) -> None:
     return None
 
 
-class TeamData(BaseModel):
-    players: Sequence[str]
-    champions: Sequence[str]
-
-
 @app.get("/game/new_round")
-async def new_round() -> Tuple[TeamData, TeamData]:
+async def new_round() -> Tuple[TeamState, TeamState]:
     global game
     game.new_round()
 
     red = game.red
-    players = [player.name for player in red.players]
-    champions = [champion.name for champion in red.champions]
-    red_data = TeamData(players=players, champions=champions)
-
     blue = game.blue
-    players = [player.name for player in blue.players]
-    champions = [champion.name for champion in blue.champions]
-    blue_data = TeamData(players=players, champions=champions)
 
-    return (red_data, blue_data)
+    return (red.to_state(), blue.to_state())
 
 
 @app.post("/game/round_winner")
@@ -79,8 +68,8 @@ async def round_winner(team: str) -> Message:
 
 
 @app.get("/game/scoreboard")
-async def get_scoreboard() -> Sequence[PlayerData]:
+async def get_scoreboard() -> Sequence[PlayerState]:
     global game
     players = game.get_scoreboard()
 
-    return [PlayerData(name=p.name, score=p.score) for p in players]
+    return [p.to_state() for p in players]
