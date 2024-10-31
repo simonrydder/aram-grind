@@ -1,9 +1,9 @@
 from src.interfaces.champion import Champion, ChampionState
-from src.utils.lol import ChampionData
+from src.utils.lol import ChampionDragon
 
 
 class StandardChampion(Champion):
-    def __init__(self, data: ChampionData) -> None:
+    def __init__(self, data: ChampionDragon) -> None:
         super().__init__()
 
         self._available: bool = True

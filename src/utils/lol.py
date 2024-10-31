@@ -9,14 +9,14 @@ class Language(StrEnum):
     FR = "fr_FR"
 
 
-class InfoData(BaseModel):
+class InfoDragon(BaseModel):
     attack: int
     defense: int
     magic: int
     difficulty: int
 
 
-class ImageData(BaseModel):
+class ImageDragon(BaseModel):
     full: str
     sprite: str
     group: str
@@ -26,7 +26,7 @@ class ImageData(BaseModel):
     h: int
 
 
-class StatsData(BaseModel):
+class StatsDragon(BaseModel):
     hp: float
     hpperlevel: float
     mp: float
@@ -49,25 +49,25 @@ class StatsData(BaseModel):
     attackspeed: float
 
 
-class ChampionData(BaseModel):
+class ChampionDragon(BaseModel):
     version: str
     id: str
     key: int
     name: str
     title: str
     blurb: str
-    info: InfoData
-    image: ImageData
+    info: InfoDragon
+    image: ImageDragon
     tags: list[str]
     partype: str
-    stats: StatsData
+    stats: StatsDragon
 
 
 class LolDataDragon(BaseModel):
     type: str
     format: str
     version: str
-    data: dict[str, ChampionData]
+    data: dict[str, ChampionDragon]
 
 
 def fetch_versions() -> list[str]:
