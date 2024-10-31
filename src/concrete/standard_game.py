@@ -99,7 +99,7 @@ class StandardGame(Game):
 
     def save_game(self, file_name: str) -> None:
         game_state = GameState(
-            players=[p.to_dict() for p in self._players],
+            players=[p.to_state() for p in self._players],
             champions={c.name: c.to_dict() for c in self._champions},
         )
 
@@ -114,7 +114,7 @@ class StandardGame(Game):
         self._load_champion_states(game_state.champions)
 
     def _load_player_states(self, player_states: Sequence[PlayerState]):
-        self._players = [StandardPlayer().from_dict(ps) for ps in player_states]
+        self._players = [StandardPlayer().from_state(ps) for ps in player_states]
 
     def _load_champion_states(self, champion_states: dict[str, ChampionState]):
         for champ in self._champions:

@@ -48,44 +48,30 @@ def test_player_score_can_not_be_negative():
         player.score = new_score
 
 
-def test_that_player_state_has_key_name():
-    player = StandardPlayer("1")
-    state = player.to_dict()
-
-    assert "name" in state.keys()
-
-
 def test_that_player_state_has_name_value_1():
     player = StandardPlayer("1")
-    state = player.to_dict()
+    state = player.to_state()
 
-    assert state.get("name") == "1"
-
-
-def test_that_player_state_has_key_score():
-    p = StandardPlayer("1")
-    state = p.to_dict()
-
-    assert "score" in state.keys()
+    assert state.name == "1"
 
 
 def test_that_player_state_has_score_value_2():
     p = StandardPlayer("1")
     p.score = 2
-    state = p.to_dict()
+    state = p.to_state()
 
-    assert state.get("score") == 2
+    assert state.score == 2
 
 
 def test_that_player_from_state_has_name_p2():
     state = PlayerState(name="p2", score=0)
-    p = StandardPlayer("").from_dict(state)
+    p = StandardPlayer("").from_state(state)
 
     assert p.name == "p2"
 
 
 def test_that_player_from_dict_has_score_3():
     state = PlayerState(name="p1", score=3)
-    p = StandardPlayer("").from_dict(state)
+    p = StandardPlayer("").from_state(state)
 
     assert p.score == 3

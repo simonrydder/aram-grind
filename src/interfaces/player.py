@@ -1,10 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import TypedDict
 
-
-class PlayerState(TypedDict):
-    name: str
-    score: int
+from src.states.player import PlayerState
 
 
 class Player(ABC):
@@ -24,9 +20,9 @@ class Player(ABC):
         pass
 
     @abstractmethod
-    def to_dict(self) -> PlayerState:
+    def to_state(self) -> PlayerState:
         pass
 
     @abstractmethod
-    def from_dict(self, state: PlayerState) -> "Player":
+    def from_state(self, state: PlayerState) -> "Player":
         pass
