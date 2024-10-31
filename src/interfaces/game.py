@@ -1,14 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Sequence, TypedDict
+from typing import Sequence
 
-from src.interfaces.champion import Champion, ChampionState
-from src.interfaces.player import Player, PlayerState
+
+from src.interfaces.champion import Champion
+from src.interfaces.player import Player
 from src.interfaces.team import Team
-
-
-class GameState(TypedDict):
-    players: Sequence[PlayerState]
-    champions: dict[str, ChampionState]
 
 
 class Game(ABC):

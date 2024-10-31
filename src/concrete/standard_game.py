@@ -7,14 +7,14 @@ from src.concrete.standard_champion import StandardChampion
 from src.concrete.standard_player import StandardPlayer
 from src.concrete.standard_team import StandardTeam
 from src.interfaces.champion import Champion, ChampionState
-from src.interfaces.game import Game, GameState
+from src.interfaces.game import Game
 from src.interfaces.player import Player, PlayerState
 from src.interfaces.team import Team
+from src.states.game import GameState
 from src.utils.lol import Language, get_champion_data, get_data_url
 
 
 class StandardGame(Game):
-
     def __init__(self) -> None:
         super().__init__()
         self.initialize_game([])
@@ -25,7 +25,6 @@ class StandardGame(Game):
 
     @property
     def champions(self) -> Sequence[Champion]:
-
         return [champ for champ in self._champions if champ.available]
 
     @property
@@ -99,20 +98,20 @@ class StandardGame(Game):
         return score_board[0]
 
     def save_game(self, file_name: str) -> None:
-        game_state: GameState = {
-            "players": [p.to_dict() for p in self._players],
-            "champions": {c.name: c.to_dict() for c in self._champions},
-        }
+        game_state = GameState(
+            players=[p.to_dict() for p in self._players],
+            champions={c.name: c.to_dict() for c in self._champions},
+        )
 
         with open(file_name, "w") as f:
-            json.dump(game_state, f)
+            json.dump(game_state.model_dump(), f)
 
     def load_game(self, file_name: str) -> None:
         with open(file_name, "r") as f:
-            game_state: GameState = json.load(f)
+            game_state = GameState(**json.load(f))
 
-        self._load_player_states(game_state.get("players"))
-        self._load_champion_states(game_state.get("champions"))
+        self._load_player_states(game_state.players)
+        self._load_champion_states(game_state.champions)
 
     def _load_player_states(self, player_states: Sequence[PlayerState]):
         self._players = [StandardPlayer().from_dict(ps) for ps in player_states]
