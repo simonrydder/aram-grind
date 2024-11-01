@@ -7,7 +7,7 @@ from src.api import app
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
 from src.interfaces.game import Game
-from test.utils import api as api_utils
+from tests.utils import api as api_utils
 
 
 @pytest.fixture(scope="function")
