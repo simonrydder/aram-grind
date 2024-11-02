@@ -73,3 +73,17 @@ async def get_scoreboard() -> Sequence[PlayerState]:
     players = game.get_scoreboard()
 
     return [p.to_state() for p in players]
+
+
+@app.post("/game/save")
+async def save_game(file: str) -> Message:
+    global game
+
+    game.save_game(file)
+
+    return Message(message="Game saved")
+
+
+@app.post("/load")
+async def load_game(file: str) -> Message:
+    return Message(message=f"{file} loaded")

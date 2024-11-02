@@ -1,3 +1,4 @@
+import os
 from typing import Iterator, List
 
 import pytest
@@ -25,6 +26,14 @@ def names() -> Iterator[List[str]]:
 def alpha(client: TestClient, names: List[str]) -> None:
     client.post("/new")
     client.post("/new/add_players", json=names)
+
+
+@pytest.fixture(scope="function")
+def file() -> Iterator[str]:
+    file = "file.json"
+    yield file
+
+    os.remove(file)
 
 
 def test_that_root_is_active_and_game_is_none(client: TestClient):
@@ -164,3 +173,31 @@ def test_that_get_scoreboard_has_denze_first(client: TestClient, alpha: None):
         {"name": "Alex", "score": 0},
         {"name": "Eskild", "score": 0},
     ]
+
+
+def test_that_save_game_has_valid_route(client: TestClient, alpha: None, file: str):
+    client = api_utils.skip_rounds(client, 3, "red")
+
+    response = client.post(f"/game/save?file={file}")
+
+    assert response.status_code == 200
+
+
+def test_that_save_game_has_return_message(client: TestClient, alpha: None, file: str):
+    client = api_utils.skip_rounds(client, 3, "red")
+    response = client.post(f"game/save?file={file}")
+
+    assert response.json() == {"message": "Game saved"}
+
+
+def test_that_save_game_creates_saved_file(client: TestClient, alpha: None, file: str):
+    client = api_utils.skip_rounds(client, 3, "red")
+    _ = client.post(f"game/save?file={file}")
+
+    assert os.path.exists(file)
+
+
+def test_that_load_game_has_valid_route(client: TestClient, file: str):
+    response = client.post(f"/load?file={file}")
+
+    assert response.status_code == 200
