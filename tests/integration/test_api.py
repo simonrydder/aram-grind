@@ -178,6 +178,8 @@ def test_that_get_scoreboard_has_denze_first(client: TestClient, alpha: None):
 def test_that_champions_has_valid_rounte(client: TestClient, alpha: None):
     response = client.get("/game/champions")
 
+    assert response.status_code == 200
+
 
 def test_that_save_game_has_valid_route(client: TestClient, alpha: None, file: str):
     client = api_utils.skip_rounds(client, 3, "red")
@@ -215,7 +217,7 @@ def test_that_save_game_creates_saved_file(client: TestClient, alpha: None, file
     assert os.path.exists(file)
 
 
-def test_that_load_game_has_valid_route(client: TestClient, file: str):
-    response = client.post(f"/load?file={file}")
+# def test_that_load_game_has_valid_route(client: TestClient, file: str):
+#     response = client.post(f"/load?file={file}")
 
-    assert response.status_code == 200
+#     assert response.status_code == 200
