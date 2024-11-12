@@ -74,6 +74,13 @@ def test_that_add_players_initialize_game(client: TestClient, names: List[str]):
     assert len(app.game.players) == 6
 
 
+def test_that_add_players_returns_message(client: TestClient, names: List[str]):
+    client.post("/new")
+    response = client.post("/new/add_players", json=names)
+
+    assert response.json() == {"message": "Players initialized."}
+
+
 def test_that_new_round_has_valid_route(client: TestClient, alpha: None):
     res = client.get("/game/new_round")
 

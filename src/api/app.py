@@ -51,11 +51,11 @@ async def create_game() -> Message:
 
 
 @app.post("/new/add_players")
-async def add_players(names: List[str]) -> None:
+async def add_players(names: List[str]) -> Message:
     global game
     players = [StandardPlayer(name) for name in names]
     game.initialize_game(players)
-    return None
+    return Message(message="Players initialized.")
 
 
 @app.get("/game/new_round")
