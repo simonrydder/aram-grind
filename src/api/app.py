@@ -1,15 +1,34 @@
 from typing import List, Sequence, Tuple
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
 from src.interfaces.game import Game
+from src.states.champion import ChampionState
 from src.states.player import PlayerState
 from src.states.team import TeamState
 
 app = FastAPI()
+
+# Configure allowed origins
+origins = [
+    "http://localhost:3000",
+    "*",
+    # add other origins if needed
+]
+
+# Apply CORS settings to the app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # allow all methods (e.g., GET, POST)
+    allow_headers=["*"],  # allow all headers
+)
+
 
 game: Game
 
@@ -73,3 +92,10 @@ async def get_scoreboard() -> Sequence[PlayerState]:
     players = game.get_scoreboard()
 
     return [p.to_state() for p in players]
+
+
+@app.get("/game/champions")
+async def get_champions() -> Sequence[ChampionState]:
+    global game
+
+    return [champ.to_state() for champ in game.champions]

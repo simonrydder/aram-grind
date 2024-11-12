@@ -164,3 +164,23 @@ def test_that_get_scoreboard_has_denze_first(client: TestClient, alpha: None):
         {"name": "Alex", "score": 0},
         {"name": "Eskild", "score": 0},
     ]
+
+
+def test_that_champions_has_valid_rounte(client: TestClient, alpha: None):
+    response = client.get("/game/champions")
+
+    assert response.status_code == 200
+
+
+def test_that_champions_has_length_168(client: TestClient, alpha: None):
+    response = client.get("game/champions")
+
+    assert len(response.json()) == 168
+
+
+def test_that_champions_has_lenght_168_after_one_round(client: TestClient, alpha: None):
+    client = api_utils.skip_rounds(client, 1, "blue")
+
+    response = client.get("game/champions")
+
+    assert len(response.json()) == 168

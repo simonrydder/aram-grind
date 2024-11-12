@@ -25,7 +25,7 @@ class StandardGame(Game):
 
     @property
     def champions(self) -> Sequence[Champion]:
-        return [champ for champ in self._champions if champ.available]
+        return self._champions
 
     @property
     def red(self) -> Team:
@@ -52,8 +52,11 @@ class StandardGame(Game):
         self._assign_players()
         self._assign_champions()
 
+    def _get_available_champions(self) -> Sequence[Champion]:
+        return [champ for champ in self._champions if champ.available]
+
     def _assign_champions(self):
-        champions = iter(self.champions)
+        champions = iter(self._get_available_champions())
         for _ in range(self.red.size):
             self.red.add_champion(next(champions))
 

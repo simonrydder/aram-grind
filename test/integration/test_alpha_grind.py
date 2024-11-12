@@ -12,7 +12,6 @@ from src.interfaces.player import Player
 
 @pytest.fixture(scope="function")
 def players() -> Sequence[Player]:
-
     return [StandardPlayer(str(i + 1)) for i in range(6)]
 
 
@@ -290,6 +289,7 @@ def test_that_loaded_game_has_first_able_champion_(
     long_game.save_game(save_file)
     game.load_game(save_file)
 
-    champ = game.champions[0]
-
-    assert champ.name == "Briar"
+    for champ in game.champions:
+        if champ.available:
+            assert champ.name == "Briar"
+            break
