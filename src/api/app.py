@@ -99,3 +99,17 @@ async def get_champions() -> Sequence[ChampionState]:
     global game
 
     return [champ.to_state() for champ in game.champions]
+
+
+@app.post("/game/save")
+async def save_game(file: str) -> Message:
+    global game
+
+    game.save_game(file)
+
+    return Message(message="Game saved")
+
+
+@app.post("/load")
+async def load_game(file: str) -> Message:
+    return Message(message=f"{file} loaded")
