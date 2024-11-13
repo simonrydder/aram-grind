@@ -6,6 +6,11 @@ from src.states.champion import ChampionState
 class Champion(ABC):
     @property
     @abstractmethod
+    def name(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
     def available(self) -> bool:
         pass
 
@@ -15,11 +20,6 @@ class Champion(ABC):
 
     @abstractmethod
     def enable(self) -> None:
-        pass
-
-    @property
-    @abstractmethod
-    def name(self) -> str:
         pass
 
     @abstractmethod

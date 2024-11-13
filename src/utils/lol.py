@@ -3,6 +3,8 @@ from enum import StrEnum
 import requests
 from pydantic import BaseModel
 
+BASE_URL = "https://ddragon.leagueoflegends.com/"
+
 
 class Language(StrEnum):
     US = "en_US"
@@ -71,7 +73,7 @@ class LolDataDragon(BaseModel):
 
 
 def fetch_versions() -> list[str]:
-    url = "https://ddragon.leagueoflegends.com/api/versions.json"
+    url = f"{BASE_URL}api/versions.json"
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
@@ -82,7 +84,7 @@ def get_latest_version(versions: list[str]) -> str:
 
 
 def get_data_url(version: str, language: str) -> str:
-    url = f"https://ddragon.leagueoflegends.com/cdn/{version}/data/{language}/champion.json"
+    url = f"{BASE_URL}cdn/{version}/data/{language}/champion.json"
     return url
 
 
