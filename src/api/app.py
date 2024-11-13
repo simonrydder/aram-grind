@@ -30,7 +30,7 @@ app.add_middleware(
 )
 
 
-game: Game
+game: Game = StandardGame()
 
 
 class Message(BaseModel):
