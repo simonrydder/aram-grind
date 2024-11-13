@@ -10,6 +10,11 @@ class StandardChampion(Champion):
         self._name: str = data.name
         self._image: str = self._get_image_url(data.image.full, data.version)
         self._loading: str = self._get_loading_image(data.id)
+        self._tags: set[str] = set(data.tags)
+        self._physical: int = data.info.attack
+        self._defense: int = data.info.defense
+        self._magic: int = data.info.magic
+        self._difficulty: int = data.info.difficulty
 
     @property
     def name(self) -> str:
@@ -18,6 +23,26 @@ class StandardChampion(Champion):
     @property
     def available(self) -> bool:
         return self._available
+
+    @property
+    def tags(self) -> set[str]:
+        return self._tags
+
+    @property
+    def physical(self) -> int:
+        return self._physical
+
+    @property
+    def defense(self) -> int:
+        return self._defense
+
+    @property
+    def magic(self) -> int:
+        return self._magic
+
+    @property
+    def difficulty(self) -> int:
+        return self._difficulty
 
     def disable(self) -> None:
         self._available = False

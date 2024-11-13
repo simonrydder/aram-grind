@@ -14,6 +14,31 @@ class Champion(ABC):
     def available(self) -> bool:
         pass
 
+    @property
+    @abstractmethod
+    def tags(self) -> set[str]:
+        pass
+
+    @property
+    @abstractmethod
+    def physical(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def defense(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def magic(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def difficulty(self) -> int:
+        pass
+
     @abstractmethod
     def disable(self) -> None:
         pass

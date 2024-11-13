@@ -69,3 +69,43 @@ def test_that_aatrox_state_has_loading_image(aatrox: Champion):
     )
 
     assert state.loading == loading_image
+
+
+def test_that_aatrox_has_tags_fighter(aatrox: Champion):
+    assert aatrox.tags == {"Fighter"}
+
+
+def test_that_ekko_has_tags_mage_and_assasin(ekko: Champion):
+    assert ekko.tags == {"Mage", "Assassin"}
+
+
+def test_that_aatrox_has_physical_8(aatrox: Champion):
+    assert aatrox.physical == 8
+
+
+def test_that_ekko_has_physical_4(ekko: Champion):
+    assert ekko.physical == 5
+
+
+def test_that_aatrox_has_defense_4(aatrox: Champion):
+    assert aatrox.defense == 4
+
+
+def test_that_ekko_has_defense_3(ekko: Champion):
+    assert ekko.defense == 3
+
+
+def test_that_aatrox_has_magic_3(aatrox: Champion):
+    assert aatrox.magic == 3
+
+
+def test_that_ekko_has_magic_7(ekko: Champion):
+    assert ekko.magic == 7
+
+
+def test_that_aatrox_has_difficulty_4(aatrox: Champion):
+    assert aatrox.difficulty == 4
+
+
+def test_that_ekko_has_difficulty_8(ekko: Champion):
+    assert ekko.difficulty == 8
