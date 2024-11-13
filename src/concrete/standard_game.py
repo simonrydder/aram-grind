@@ -9,14 +9,15 @@ from src.concrete.standard_team import StandardTeam
 from src.interfaces.champion import Champion, ChampionState
 from src.interfaces.game import Game
 from src.interfaces.player import Player, PlayerState
+from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
 from src.interfaces.team import Team
 from src.states.game import GameState
 from src.utils.lol import Language, get_champion_data, get_data_url
 
 
 class StandardGame(Game):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, player_assignment: PlayerAssignmentStrategy) -> None:
+        super().__init__(player_assignment)
         self.initialize_game([])
 
     @property
@@ -64,12 +65,7 @@ class StandardGame(Game):
             self.blue.add_champion(next(champions))
 
     def _assign_players(self) -> None:
-        players = iter(self.players)
-        for _ in range(self.red.size):
-            self.red.add_player(next(players))
-
-        for _ in range(self.blue.size):
-            self.blue.add_player(next(players))
+        self._pa.apply(self)
 
     def update_winners(self, winner: Team) -> None:
         loser = self._get_opposite_team(winner)
@@ -131,7 +127,3 @@ class StandardGame(Game):
 
     def end_game(self) -> None:
         return super().end_game()
-
-
-if __name__ == "__main__":
-    StandardGame()

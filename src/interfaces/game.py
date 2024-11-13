@@ -1,16 +1,17 @@
 from abc import ABC, abstractmethod
 from typing import Sequence
 
-
 from src.interfaces.champion import Champion
 from src.interfaces.player import Player
+from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
 from src.interfaces.team import Team
 
 
 class Game(ABC):
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self, player_assignment: PlayerAssignmentStrategy) -> None:
         super().__init__()
+        self._pa = player_assignment
 
     @property
     @abstractmethod

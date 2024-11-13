@@ -6,6 +6,9 @@ from pydantic import BaseModel
 
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
+from src.concrete.strategies.player_assignment.first import (
+    FirstPlayerAssignemntStrategy,
+)
 from src.interfaces.game import Game
 from src.states.champion import ChampionState
 from src.states.player import PlayerState
@@ -30,7 +33,7 @@ app.add_middleware(
 )
 
 
-game: Game = StandardGame()
+game: Game = StandardGame(FirstPlayerAssignemntStrategy())
 
 
 class Message(BaseModel):
@@ -45,7 +48,7 @@ async def root() -> str:
 @app.post("/new")
 async def create_game() -> Message:
     global game
-    game = StandardGame()
+    game = StandardGame(FirstPlayerAssignemntStrategy())
 
     return Message(message="Game initialized successfully")
 

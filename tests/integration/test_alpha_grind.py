@@ -6,6 +6,9 @@ import pytest
 
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
+from src.concrete.strategies.player_assignment.first import (
+    FirstPlayerAssignemntStrategy,
+)
 from src.interfaces.game import Game
 from src.interfaces.player import Player
 
@@ -17,7 +20,7 @@ def players() -> Sequence[Player]:
 
 @pytest.fixture(scope="function")
 def game(players: Sequence[Player]) -> Game:
-    game = StandardGame()
+    game = StandardGame(FirstPlayerAssignemntStrategy())
     game.initialize_game(players)
     return game
 
@@ -32,7 +35,7 @@ def save_file() -> Iterator[str]:
 
 @pytest.fixture(scope="function")
 def long_game(players: Sequence[Player]) -> Game:
-    game = StandardGame()
+    game = StandardGame(FirstPlayerAssignemntStrategy())
     game.initialize_game(players)
 
     game.new_round()
@@ -70,9 +73,8 @@ def test_that_red_team_has_size_3(game: Game):
     assert team.size == 3
 
 
-def test_that_red_team_has_size_2(players: Sequence[Player]):
+def test_that_red_team_has_size_2(players: Sequence[Player], game: Game):
     three_players = players[:3]
-    game = StandardGame()
     game.initialize_game(three_players)
     team = game.red
 
@@ -85,9 +87,8 @@ def test_that_blue_team_has_size_3(game: Game):
     assert team.size == 3
 
 
-def test_that_blue_team_has_size_1(players: Sequence[Player]):
+def test_that_blue_team_has_size_1(players: Sequence[Player], game: Game):
     three_players = players[:3]
-    game = StandardGame()
     game.initialize_game(three_players)
     team = game.blue
 

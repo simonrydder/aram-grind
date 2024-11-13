@@ -7,6 +7,9 @@ from fastapi.testclient import TestClient
 from src.api import app
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
+from src.concrete.strategies.player_assignment.first import (
+    FirstPlayerAssignemntStrategy,
+)
 from src.interfaces.game import Game
 from tests.utils import api as api_utils
 
@@ -99,7 +102,7 @@ def test_that_new_round_has_valid_red_team(client: TestClient, alpha: None):
 def test_that_new_round_retuns_teams(client: TestClient, alpha: None, names: List[str]):
     res = client.get("/game/new_round")
 
-    true_game = StandardGame()
+    true_game = StandardGame(FirstPlayerAssignemntStrategy())
     true_game.initialize_game([StandardPlayer(name=name) for name in names])
     true_game.new_round()
 
