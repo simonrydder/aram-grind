@@ -26,7 +26,8 @@ class StandardGame(Game):
 
     @property
     def champions(self) -> Sequence[Champion]:
-        return self._champions
+        sorted_champions = sorted(self._champions, key=lambda c: (c.available, c.name))
+        return sorted_champions
 
     @property
     def red(self) -> Team:
