@@ -91,7 +91,7 @@ class StandardGame(Game):
             champ.disable()
 
     def get_scoreboard(self) -> Sequence[Player]:
-        return sorted(self.players, key=lambda p: p.score, reverse=True)
+        return sorted(self.players, key=lambda p: (-p.score, p.name))
 
     def get_winner(self) -> Player:
         score_board = self.get_scoreboard()

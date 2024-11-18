@@ -54,4 +54,5 @@ class StandardTeam(Team):
         return TeamState(
             players=[p.to_state() for p in self.players],
             champions=[c.to_state() for c in self.champions],
+            size=self._size,
         )

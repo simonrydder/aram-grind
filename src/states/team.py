@@ -9,3 +9,4 @@ from src.states.player import PlayerState
 class TeamState(BaseModel):
     players: Sequence[PlayerState]
     champions: Sequence[ChampionState]
+    size: int

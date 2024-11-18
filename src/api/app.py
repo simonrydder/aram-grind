@@ -40,6 +40,10 @@ class Message(BaseModel):
     message: str
 
 
+class TeamRequest(BaseModel):
+    team: str
+
+
 @app.get("/")
 async def root() -> str:
     return "Hello, World!"
@@ -73,12 +77,12 @@ async def new_round() -> Tuple[TeamState, TeamState]:
 
 
 @app.post("/game/round_winner")
-async def round_winner(team: str) -> Message:
+async def round_winner(team: TeamRequest) -> Message:
     global game
-    print(team)
-    if team.lower() == "red":
+    team_str = team.team
+    if team_str.lower() == "red":
         game.update_winners(game.red)
-    elif team.lower() == "blue":
+    elif team_str.lower() == "blue":
         game.update_winners(game.blue)
     else:
         raise HTTPException(

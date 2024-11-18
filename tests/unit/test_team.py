@@ -134,3 +134,18 @@ def test_team_state_has_champion_state_aatrox(aatrox: Champion):
     state = team.to_state()
 
     assert state.champions == [aatrox.to_state()]
+
+
+def test_team_state_has_size_2():
+    team = StandardTeam(2)
+
+    state = team.to_state()
+
+    assert state.size == 2
+
+
+def test_team_state_has_size_3():
+    team = StandardTeam()
+    state = team.to_state()
+
+    assert state.size == 3
