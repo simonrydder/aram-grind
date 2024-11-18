@@ -116,14 +116,14 @@ def test_that_new_round_retuns_teams(client: TestClient, alpha: None, names: Lis
 
 def test_that_round_winner_has_valid_route(client: TestClient, alpha: None):
     client.get("/game/new_round")
-    response = client.post("/game/round_winner?team=red")
+    response = client.post("/game/round_winner", json={"team": "red"})
 
     assert response.status_code == 200
 
 
 def test_that_round_winner_red_gives_simon_1_point(client: TestClient, alpha: None):
     client.get("/game/new_round")
-    _ = client.post("/game/round_winner?team=red")
+    _ = client.post("/game/round_winner", json={"team": "red"})
 
     players = app.game.players
     simon = players[0]
@@ -133,7 +133,7 @@ def test_that_round_winner_red_gives_simon_1_point(client: TestClient, alpha: No
 
 def test_that_round_winner_blue_gives_denze_1_point(client: TestClient, alpha: None):
     client.get("/game/new_round")
-    client.post("/game/round_winner?team=blue")
+    client.post("/game/round_winner", json={"team": "blue"})
 
     players = app.game.players
     denze = players[3]
@@ -145,21 +145,21 @@ def test_that_round_winner_with_invalid_team_raises_exception(
     client: TestClient, alpha: None
 ):
     client.get("/game/new_round")
-    response = client.post("/game/round_winner?team=green")
+    response = client.post("/game/round_winner", json={"team": "green"})
 
     assert response.status_code == 400
 
 
 def test_that_round_winner_red_has_return_message(client: TestClient, alpha: None):
     client.get("/game/new_round")
-    response = client.post("/game/round_winner?team=red")
+    response = client.post("/game/round_winner", json={"team": "red"})
 
     assert response.json() == {"message": "Updated round winner was 'red'"}
 
 
 def test_that_round_winner_blue_has_return_message(client: TestClient, alpha: None):
     client.get("/game/new_round")
-    response = client.post("/game/round_winner?team=blue")
+    response = client.post("/game/round_winner", json={"team": "blue"})
 
     assert response.json() == {"message": "Updated round winner was 'blue'"}
 
@@ -179,9 +179,9 @@ def test_that_get_scoreboard_has_denze_first(client: TestClient, alpha: None):
         {"name": "Denze", "score": 2},
         {"name": "Hanghøj", "score": 2},
         {"name": "Peter", "score": 2},
-        {"name": "Simon", "score": 0},
         {"name": "Alex", "score": 0},
         {"name": "Eskild", "score": 0},
+        {"name": "Simon", "score": 0},
     ]
 
 

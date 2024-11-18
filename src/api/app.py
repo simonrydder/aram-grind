@@ -90,7 +90,7 @@ async def round_winner(team: TeamRequest) -> Message:
             detail="Invalid team name. Valid options ['red', 'blue']",
         )
 
-    return Message(message=f"Updated round winner was '{team}'")
+    return Message(message=f"Updated round winner was '{team_str}'")
 
 
 @app.get("/game/scoreboard")
