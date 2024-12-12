@@ -4,11 +4,9 @@ from typing import Any, Iterator, Sequence
 
 import pytest
 
+from src.concrete.factories.alpha import Alpha
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
-from src.concrete.strategies.player_assignment.first import (
-    FirstPlayerAssignemntStrategy,
-)
 from src.interfaces.game import Game
 from src.interfaces.player import Player
 
@@ -20,22 +18,23 @@ def players() -> Sequence[Player]:
 
 @pytest.fixture(scope="function")
 def game(players: Sequence[Player]) -> Game:
-    game = StandardGame(FirstPlayerAssignemntStrategy())
+    game = StandardGame(Alpha())
     game.initialize_game(players)
     return game
 
 
 @pytest.fixture(scope="function")
 def save_file() -> Iterator[str]:
-    file = "save_file.json"
+    file = "save_file"
     yield file
 
-    os.remove(file)
+    saved_file = os.path.join("saves", f"{file}.json")
+    os.remove(saved_file)
 
 
 @pytest.fixture(scope="function")
 def long_game(players: Sequence[Player]) -> Game:
-    game = StandardGame(FirstPlayerAssignemntStrategy())
+    game = StandardGame(Alpha())
     game.initialize_game(players)
 
     game.new_round()
@@ -270,7 +269,8 @@ def test_that_champions_in_second_round_is_new(game: Game):
 def test_that_save_game_create_saved_file(long_game: Game, save_file: str):
     long_game.save_game(save_file)
 
-    assert os.path.exists(save_file)
+    saved_file = os.path.join("saves", f"{save_file}.json")
+    assert os.path.exists(saved_file)
 
 
 def test_that_loaded_game_has_player_1_with_score_2(

@@ -4,11 +4,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from src.concrete.factories.alpha import Alpha
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
-from src.concrete.strategies.player_assignment.first import (
-    FirstPlayerAssignemntStrategy,
-)
 from src.interfaces.game import Game
 from src.states.champion import ChampionState
 from src.states.player import PlayerState
@@ -33,7 +31,7 @@ app.add_middleware(
 )
 
 
-game: Game = StandardGame(FirstPlayerAssignemntStrategy())
+game: Game = StandardGame(Alpha())
 
 
 class Message(BaseModel):
@@ -44,6 +42,10 @@ class TeamRequest(BaseModel):
     team: str
 
 
+class File(BaseModel):
+    name: str
+
+
 @app.get("/")
 async def root() -> str:
     return "Hello, World!"
@@ -52,7 +54,7 @@ async def root() -> str:
 @app.post("/new")
 async def create_game() -> Message:
     global game
-    game = StandardGame(FirstPlayerAssignemntStrategy())
+    game = StandardGame(Alpha())
 
     return Message(message="Game initialized successfully")
 
@@ -109,14 +111,17 @@ async def get_champions() -> Sequence[ChampionState]:
 
 
 @app.post("/game/save")
-async def save_game(file: str) -> Message:
+async def save_game(file: File) -> Message:
     global game
+    filename = file.name
+    print(filename)
+    game.save_game(filename)
 
-    game.save_game(file)
-
-    return Message(message="Game saved")
+    return Message(message=f"Game saved in {filename}")
 
 
 @app.post("/load")
-async def load_game(file: str) -> Message:
-    return Message(message=f"{file} loaded")
+async def load_game(file: File) -> Message:
+    filename = file.name
+    print(filename)
+    return Message(message=f"{filename} loaded")

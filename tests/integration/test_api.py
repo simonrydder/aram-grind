@@ -5,11 +5,9 @@ import pytest
 from fastapi.testclient import TestClient
 
 from src.api import app
+from src.concrete.factories.alpha import Alpha
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
-from src.concrete.strategies.player_assignment.first import (
-    FirstPlayerAssignemntStrategy,
-)
 from src.interfaces.game import Game
 from tests.utils import api as api_utils
 
@@ -33,10 +31,11 @@ def alpha(client: TestClient, names: List[str]) -> None:
 
 @pytest.fixture(scope="function")
 def file() -> Iterator[str]:
-    file = "file.json"
+    file = "file"
     yield file
 
-    os.remove(file)
+    saved_file = os.path.join("saves", f"{file}.json")
+    os.remove(saved_file)
 
 
 def test_that_root_is_active_and_game_is_none(client: TestClient):
@@ -102,7 +101,7 @@ def test_that_new_round_has_valid_red_team(client: TestClient, alpha: None):
 def test_that_new_round_retuns_teams(client: TestClient, alpha: None, names: List[str]):
     res = client.get("/game/new_round")
 
-    true_game = StandardGame(FirstPlayerAssignemntStrategy())
+    true_game = StandardGame(Alpha())
     true_game.initialize_game([StandardPlayer(name=name) for name in names])
     true_game.new_round()
 
@@ -194,7 +193,7 @@ def test_that_champions_has_valid_rounte(client: TestClient, alpha: None):
 def test_that_save_game_has_valid_route(client: TestClient, alpha: None, file: str):
     client = api_utils.skip_rounds(client, 3, "red")
 
-    response = client.post(f"/game/save?file={file}")
+    response = client.post("/game/save", json={"name": file})
 
     assert response.status_code == 200
 
@@ -215,16 +214,17 @@ def test_that_champions_has_lenght_168_after_one_round(client: TestClient, alpha
 
 def test_that_save_game_has_return_message(client: TestClient, alpha: None, file: str):
     client = api_utils.skip_rounds(client, 3, "red")
-    response = client.post(f"game/save?file={file}")
+    response = client.post("/game/save", json={"name": file})
 
-    assert response.json() == {"message": "Game saved"}
+    assert response.json() == {"message": f"Game saved in {file}"}
 
 
 def test_that_save_game_creates_saved_file(client: TestClient, alpha: None, file: str):
     client = api_utils.skip_rounds(client, 3, "red")
-    _ = client.post(f"game/save?file={file}")
+    _ = client.post("/game/save", json={"name": file})
 
-    assert os.path.exists(file)
+    saved_file = os.path.join("saves", f"{file}.json")
+    assert os.path.exists(saved_file)
 
 
 # def test_that_load_game_has_valid_route(client: TestClient, file: str):

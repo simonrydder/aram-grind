@@ -2,16 +2,17 @@ from abc import ABC, abstractmethod
 from typing import Sequence
 
 from src.interfaces.champion import Champion
+from src.interfaces.factories.game import GameFactory
 from src.interfaces.player import Player
-from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
 from src.interfaces.team import Team
 
 
 class Game(ABC):
     @abstractmethod
-    def __init__(self, player_assignment: PlayerAssignmentStrategy) -> None:
+    def __init__(self, game_factory: GameFactory) -> None:
         super().__init__()
-        self._pa = player_assignment
+        self._pa = game_factory.player_assignment
+        self._save = game_factory.save_game
 
     @property
     @abstractmethod

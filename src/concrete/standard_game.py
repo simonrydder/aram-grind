@@ -1,4 +1,5 @@
 import json
+import os
 from copy import deepcopy
 from math import ceil, floor
 from typing import Sequence
@@ -7,17 +8,17 @@ from src.concrete.standard_champion import StandardChampion
 from src.concrete.standard_player import StandardPlayer
 from src.concrete.standard_team import StandardTeam
 from src.interfaces.champion import Champion, ChampionState
+from src.interfaces.factories.game import GameFactory
 from src.interfaces.game import Game
 from src.interfaces.player import Player, PlayerState
-from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
 from src.interfaces.team import Team
 from src.states.game import GameState
 from src.utils.lol import Language, get_champion_data, get_data_url
 
 
 class StandardGame(Game):
-    def __init__(self, player_assignment: PlayerAssignmentStrategy) -> None:
-        super().__init__(player_assignment)
+    def __init__(self, game_factory: GameFactory) -> None:
+        super().__init__(game_factory)
         self.initialize_game([])
 
     @property
@@ -98,16 +99,11 @@ class StandardGame(Game):
         return score_board[0]
 
     def save_game(self, file_name: str) -> None:
-        game_state = GameState(
-            players=[p.to_state() for p in self._players],
-            champions=[c.to_state() for c in self._champions],
-        )
-
-        with open(file_name, "w") as f:
-            json.dump(game_state.model_dump(), f)
+        self._save.save(self, file_name)
 
     def load_game(self, file_name: str) -> None:
-        with open(file_name, "r") as f:
+        file = os.path.join("saves", f"{file_name}.json")
+        with open(file, "r") as f:
             game_state = GameState(**json.load(f))
 
         self._load_player_states(game_state.players)
