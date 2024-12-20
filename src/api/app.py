@@ -1,3 +1,4 @@
+import os
 from typing import List, Sequence, Tuple
 
 from fastapi import FastAPI, HTTPException
@@ -122,6 +123,14 @@ async def save_game(file: File) -> Message:
 
 @app.post("/load")
 async def load_game(file: File) -> Message:
+    global game
     filename = file.name
-    print(filename)
+    game.load_game(filename)
+
     return Message(message=f"{filename} loaded")
+
+
+@app.get("/saves")
+async def get_saved_games() -> Sequence[str]:
+    files = [f.split(".")[0] for f in os.listdir("saves")]
+    return files

@@ -38,6 +38,14 @@ def file() -> Iterator[str]:
     os.remove(saved_file)
 
 
+@pytest.fixture(scope="function")
+def savefile(client: TestClient, alpha: None, file: str) -> Iterator[str]:
+    client = api_utils.skip_rounds(client, 3, "red")
+    _ = client.post("/game/save", json={"name": file})
+
+    yield file
+
+
 def test_that_root_is_active_and_game_is_none(client: TestClient):
     response = client.get("/")
 
@@ -225,6 +233,20 @@ def test_that_save_game_creates_saved_file(client: TestClient, alpha: None, file
 
     saved_file = os.path.join("saves", f"{file}.json")
     assert os.path.exists(saved_file)
+
+
+def test_that_game_can_be_loaded(client: TestClient, savefile: str):
+    response = client.post("/load", json={"name": savefile})
+
+    assert response.status_code == 200
+
+
+def test_that_loaded_game_can_start_new_round(client: TestClient, savefile: str):
+    _ = client.post("/load", json={"name": savefile})
+
+    red = app.game.red
+
+    assert red.size == 3
 
 
 # def test_that_load_game_has_valid_route(client: TestClient, file: str):
