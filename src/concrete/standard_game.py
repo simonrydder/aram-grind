@@ -41,10 +41,12 @@ class StandardGame(Game):
     def initialize_game(self, players: Sequence[Player]) -> None:
         self._players = deepcopy(players)
 
+        self._initialize_teams()
+        self._initialize_champions()
+
+    def _initialize_teams(self):
         self._red = StandardTeam(ceil(len(self._players) / 2))
         self._blue = StandardTeam(floor(len(self._players) / 2))
-
-        self._initialize_champions()
 
     def _initialize_champions(self) -> None:
         data_url = get_data_url("14.19.1", Language.US)
@@ -108,6 +110,7 @@ class StandardGame(Game):
 
         self._load_player_states(game_state.players)
         self._load_champion_states(game_state.champions)
+        self._initialize_teams()
 
     def _load_player_states(self, player_states: Sequence[PlayerState]):
         self._players = [StandardPlayer().from_state(ps) for ps in player_states]
