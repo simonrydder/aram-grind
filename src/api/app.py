@@ -133,4 +133,5 @@ async def load_game(file: File) -> Message:
 @app.get("/saves")
 async def get_saved_games() -> Sequence[str]:
     files = [f.split(".")[0] for f in os.listdir("saves")]
+    files = sorted(files, reverse=True)
     return files
