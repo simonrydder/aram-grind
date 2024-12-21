@@ -1,5 +1,8 @@
+import random
+
+from src.concrete.standard_game import StandardGame
 from src.concrete.strategies.player_assignment.first import (
-    FirstPlayerAssignemntStrategy,
+    FirstPlayerAssignmentStrategy,
 )
 from src.interfaces.game import Game
 from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
@@ -8,10 +11,13 @@ from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
 class RandomPlayerAssignemntStrategy(PlayerAssignmentStrategy):
     def __init__(self) -> None:
         super().__init__()
-        self.first = FirstPlayerAssignemntStrategy()
+        self.first = FirstPlayerAssignmentStrategy()
 
     def apply(self, game: "Game") -> None:
-        # TODO: Cast game to mutable game where players can be shuffled
+        assert isinstance(game, StandardGame)
+        players = list(game.players)
+        random.shuffle(players)
+        game.players = players
 
-        # TODO: Apply first on the original game.
+        self.first.apply(game)
         pass

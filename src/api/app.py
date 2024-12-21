@@ -5,9 +5,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from src.concrete.factories.alpha import Alpha
+from src.concrete.factories.beta import Beta
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
+from src.interfaces.factories.game import GameFactory
 from src.interfaces.game import Game
 from src.states.champion import ChampionState
 from src.states.player import PlayerState
@@ -32,7 +33,8 @@ app.add_middleware(
 )
 
 
-game: Game = StandardGame(Alpha())
+factory: GameFactory = Beta()
+game: Game = StandardGame(factory)
 
 
 class Message(BaseModel):
@@ -55,7 +57,7 @@ async def root() -> str:
 @app.post("/new")
 async def create_game() -> Message:
     global game
-    game = StandardGame(Alpha())
+    game = StandardGame(factory)
 
     return Message(message="Game initialized successfully")
 

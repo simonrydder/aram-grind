@@ -25,6 +25,10 @@ class StandardGame(Game):
     def players(self) -> Sequence[Player]:
         return self._players
 
+    @players.setter
+    def players(self, new_players: Sequence[Player]) -> None:
+        self._players = new_players
+
     @property
     def champions(self) -> Sequence[Champion]:
         sorted_champions = sorted(self._champions, key=lambda c: (c.available, c.name))
