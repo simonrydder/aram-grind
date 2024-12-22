@@ -23,4 +23,3 @@ class RandomPlayerAssignemntStrategy(PlayerAssignmentStrategy):
 
         game = cast(Game, mutable_game)
         self.first.apply(game)
-        pass

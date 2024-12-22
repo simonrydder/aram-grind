@@ -1,5 +1,5 @@
-from src.concrete.strategies.champion_assignment.first import (
-    FirstChampionAssignmentStrategy,
+from src.concrete.strategies.champion_assignment.random import (
+    RandomChampionAssignmentStrategy,
 )
 from src.concrete.strategies.player_assignment.random import (
     RandomPlayerAssignemntStrategy,
@@ -18,7 +18,7 @@ class Beta(GameFactory):
 
     @property
     def champion_assignment(self) -> ChampionAssignmentStrategy:
-        return FirstChampionAssignmentStrategy()
+        return RandomChampionAssignmentStrategy()
 
     @property
     def save_game(self) -> SaveGameStrategy:

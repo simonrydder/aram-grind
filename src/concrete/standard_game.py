@@ -34,6 +34,9 @@ class StandardGame(Game, MutableGame):
         sorted_champions = sorted(self._champions, key=lambda c: (c.available, c.name))
         return sorted_champions
 
+    def update_champions(self, new_champions: Sequence[Champion]) -> None:
+        self._champions = new_champions
+
     @property
     def available_champions(self) -> Sequence[Champion]:
         return [champ for champ in self._champions if champ.available]
