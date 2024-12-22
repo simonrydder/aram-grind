@@ -65,7 +65,7 @@ class StandardGame(Game):
         return [champ for champ in self._champions if champ.available]
 
     def _assign_champions(self):
-        champions = iter(self._get_available_champions())
+        champions = self._get_available_champions()
         self._champion_assignment.apply(self, champions)
 
     def _assign_players(self) -> None:

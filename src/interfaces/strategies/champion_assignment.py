@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
     from src.interfaces.champion import Champion
@@ -8,5 +8,5 @@ if TYPE_CHECKING:
 
 class ChampionAssignmentStrategy(ABC):
     @abstractmethod
-    def apply(self, game: "Game", champions: Iterator["Champion"]) -> None:
+    def apply(self, game: "Game", champions: Sequence["Champion"]) -> None:
         pass
