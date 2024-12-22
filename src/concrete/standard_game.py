@@ -10,13 +10,14 @@ from src.concrete.standard_team import StandardTeam
 from src.interfaces.champion import Champion, ChampionState
 from src.interfaces.factories.game import GameFactory
 from src.interfaces.game import Game
+from src.interfaces.mutable_game import MutableGame
 from src.interfaces.player import Player, PlayerState
 from src.interfaces.team import Team
 from src.states.game import GameState
 from src.utils.lol import Language, get_champion_data, get_data_url
 
 
-class StandardGame(Game):
+class StandardGame(Game, MutableGame):
     def __init__(self, game_factory: GameFactory) -> None:
         super().__init__(game_factory)
         self.initialize_game([])
@@ -25,14 +26,17 @@ class StandardGame(Game):
     def players(self) -> Sequence[Player]:
         return self._players
 
-    @players.setter
-    def players(self, new_players: Sequence[Player]) -> None:
+    def update_players(self, new_players: Sequence[Player]) -> None:
         self._players = new_players
 
     @property
     def champions(self) -> Sequence[Champion]:
         sorted_champions = sorted(self._champions, key=lambda c: (c.available, c.name))
         return sorted_champions
+
+    @property
+    def available_champions(self) -> Sequence[Champion]:
+        return [champ for champ in self._champions if champ.available]
 
     @property
     def red(self) -> Team:
@@ -61,12 +65,8 @@ class StandardGame(Game):
         self._assign_players()
         self._assign_champions()
 
-    def _get_available_champions(self) -> Sequence[Champion]:
-        return [champ for champ in self._champions if champ.available]
-
     def _assign_champions(self):
-        champions = self._get_available_champions()
-        self._champion_assignment.apply(self, champions)
+        self._champion_assignment.apply(self)
 
     def _assign_players(self) -> None:
         self._player_assignment.apply(self)

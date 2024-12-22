@@ -27,6 +27,11 @@ class Game(ABC):
 
     @property
     @abstractmethod
+    def available_champions(self) -> Sequence[Champion]:
+        pass
+
+    @property
+    @abstractmethod
     def red(self) -> Team:
         pass
 
