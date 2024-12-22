@@ -3,7 +3,7 @@ from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
 
 
 class FirstPlayerAssignmentStrategy(PlayerAssignmentStrategy):
-    def apply(self, game: "Game") -> None:
+    def apply(self, game: Game) -> None:
         players = iter(game.players)
         for _ in range(game.red.size):
             next_player = next(players)
