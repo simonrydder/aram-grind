@@ -66,14 +66,10 @@ class StandardGame(Game):
 
     def _assign_champions(self):
         champions = iter(self._get_available_champions())
-        for _ in range(self.red.size):
-            self.red.add_champion(next(champions))
-
-        for _ in range(self.blue.size):
-            self.blue.add_champion(next(champions))
+        self._champion_assignment.apply(self, champions)
 
     def _assign_players(self) -> None:
-        self._pa.apply(self)
+        self._player_assignment.apply(self)
 
     def update_winners(self, winner: Team) -> None:
         loser = self._get_opposite_team(winner)

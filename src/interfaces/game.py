@@ -11,7 +11,8 @@ class Game(ABC):
     @abstractmethod
     def __init__(self, game_factory: GameFactory) -> None:
         super().__init__()
-        self._pa = game_factory.player_assignment
+        self._player_assignment = game_factory.player_assignment
+        self._champion_assignment = game_factory.champion_assignment
         self._save = game_factory.save_game
 
     @property

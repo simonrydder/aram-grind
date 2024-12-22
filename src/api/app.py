@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from src.concrete.factories.beta import Beta
+from src.concrete.factories.alpha import Alpha
 from src.concrete.standard_game import StandardGame
 from src.concrete.standard_player import StandardPlayer
 from src.interfaces.factories.game import GameFactory
@@ -33,7 +33,7 @@ app.add_middleware(
 )
 
 
-factory: GameFactory = Beta()
+factory: GameFactory = Alpha()
 game: Game = StandardGame(factory)
 
 
