@@ -11,3 +11,4 @@ class ChampionState(BaseModel):
     tags: Set[str] | None = None
     physical: int | None = None
     defense: int | None = None
+    magic: int | None = None

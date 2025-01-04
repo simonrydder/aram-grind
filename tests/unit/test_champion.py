@@ -135,13 +135,25 @@ def test_that_aatrox_state_has_physical_8(aatrox: Champion):
     assert state.physical == 8
 
 
-def test_that_ekko_state_has_defense_6(ekko: Champion):
+def test_that_ekko_state_has_defense_3(ekko: Champion):
     state = ekko.to_state()
 
     assert state.defense == 3
 
 
-def test_that_aatrox_state_has_defense_6(aatrox: Champion):
+def test_that_aatrox_state_has_defense_4(aatrox: Champion):
     state = aatrox.to_state()
 
     assert state.defense == 4
+
+
+def test_that_ekko_state_has_magic_8(ekko: Champion):
+    state = ekko.to_state()
+
+    assert state.magic == 7
+
+
+def test_that_aatrox_state_has_magic_4(aatrox: Champion):
+    state = aatrox.to_state()
+
+    assert state.magic == 3

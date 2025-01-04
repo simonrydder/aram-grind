@@ -59,6 +59,7 @@ class StandardChampion(Champion):
             tags=self._tags,
             physical=self._physical,
             defense=self._defense,
+            magic=self._magic,
         )
         return state
 
