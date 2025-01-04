@@ -12,3 +12,4 @@ class ChampionState(BaseModel):
     physical: int | None = None
     defense: int | None = None
     magic: int | None = None
+    difficulty: int | None = None

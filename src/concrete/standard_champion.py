@@ -60,6 +60,7 @@ class StandardChampion(Champion):
             physical=self._physical,
             defense=self._defense,
             magic=self._magic,
+            difficulty=self._difficulty,
         )
         return state
 
