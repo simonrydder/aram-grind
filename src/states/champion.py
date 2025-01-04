@@ -1,3 +1,5 @@
+from typing import Set
+
 from pydantic import BaseModel
 
 
@@ -6,3 +8,4 @@ class ChampionState(BaseModel):
     available: bool
     image: str | None = None
     loading: str | None = None
+    tags: Set[str] | None = None
