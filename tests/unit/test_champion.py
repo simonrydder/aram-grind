@@ -121,3 +121,15 @@ def test_that_aatrox_state_has_tags(aatrox: Champion):
     state = aatrox.to_state()
 
     assert state.tags == {"Fighter"}
+
+
+def test_that_ekko_state_has_physical_4(ekko: Champion):
+    state = ekko.to_state()
+
+    assert state.physical == 5
+
+
+def test_that_aatrox_state_has_physical_8(aatrox: Champion):
+    state = aatrox.to_state()
+
+    assert state.physical == 8

@@ -57,6 +57,7 @@ class StandardChampion(Champion):
             image=self._image,
             loading=self._loading,
             tags=self._tags,
+            physical=self._physical,
         )
         return state
 

@@ -9,3 +9,4 @@ class ChampionState(BaseModel):
     image: str | None = None
     loading: str | None = None
     tags: Set[str] | None = None
+    physical: int | None = None
