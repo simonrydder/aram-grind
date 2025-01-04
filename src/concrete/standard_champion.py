@@ -58,6 +58,7 @@ class StandardChampion(Champion):
             loading=self._loading,
             tags=self._tags,
             physical=self._physical,
+            defense=self._defense,
         )
         return state
 

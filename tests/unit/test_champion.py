@@ -133,3 +133,15 @@ def test_that_aatrox_state_has_physical_8(aatrox: Champion):
     state = aatrox.to_state()
 
     assert state.physical == 8
+
+
+def test_that_ekko_state_has_defense_6(ekko: Champion):
+    state = ekko.to_state()
+
+    assert state.defense == 3
+
+
+def test_that_aatrox_state_has_defense_6(aatrox: Champion):
+    state = aatrox.to_state()
+
+    assert state.defense == 4

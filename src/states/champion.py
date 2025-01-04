@@ -10,3 +10,4 @@ class ChampionState(BaseModel):
     loading: str | None = None
     tags: Set[str] | None = None
     physical: int | None = None
+    defense: int | None = None
