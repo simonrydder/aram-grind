@@ -114,13 +114,15 @@ def test_that_ekko_has_difficulty_8(ekko: Champion):
 def test_that_ekko_state_has_tags(ekko: Champion):
     state = ekko.to_state()
 
-    assert state.tags == {"Mage", "Assassin"}
+    assert isinstance(state.tags, list)
+    assert set(state.tags) == {"Mage", "Assassin"}
 
 
 def test_that_aatrox_state_has_tags(aatrox: Champion):
     state = aatrox.to_state()
 
-    assert state.tags == {"Fighter"}
+    assert isinstance(state.tags, list)
+    assert set(state.tags) == {"Fighter"}
 
 
 def test_that_ekko_state_has_physical_4(ekko: Champion):

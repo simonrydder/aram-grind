@@ -1,11 +1,11 @@
-from src.concrete.strategies.champion_assignment.first import (
-    FirstChampionAssignmentStrategy,
+from src.concrete.strategies.champion_assignment.tag_based import (
+    TagBasedChampionAssignment,
 )
 from src.concrete.strategies.champion_initialization.fixed import (
     FixedChampionLoadingStrategy,
 )
-from src.concrete.strategies.player_assignment.first import (
-    FirstPlayerAssignmentStrategy,
+from src.concrete.strategies.player_assignment.random import (
+    RandomPlayerAssignemntStrategy,
 )
 from src.concrete.strategies.save_game.standard import StandardSaveGameStrategy
 from src.interfaces.factories.game import GameFactory
@@ -15,14 +15,14 @@ from src.interfaces.strategies.player_assignment import PlayerAssignmentStrategy
 from src.interfaces.strategies.save_game import SaveGameStrategy
 
 
-class Alpha(GameFactory):
+class Production(GameFactory):
     @property
     def player_assignment(self) -> PlayerAssignmentStrategy:
-        return FirstPlayerAssignmentStrategy()
+        return RandomPlayerAssignemntStrategy()
 
     @property
     def champion_assignment(self) -> ChampionAssignmentStrategy:
-        return FirstChampionAssignmentStrategy()
+        return TagBasedChampionAssignment()
 
     @property
     def save_game(self) -> SaveGameStrategy:

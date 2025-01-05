@@ -4,7 +4,6 @@ from copy import deepcopy
 from math import ceil, floor
 from typing import Sequence
 
-from src.concrete.standard_champion import StandardChampion
 from src.concrete.standard_player import StandardPlayer
 from src.concrete.standard_team import StandardTeam
 from src.interfaces.champion import Champion, ChampionState
@@ -14,7 +13,6 @@ from src.interfaces.mutable_game import MutableGame
 from src.interfaces.player import Player, PlayerState
 from src.interfaces.team import Team
 from src.states.game import GameState
-from src.utils.lol import Language, get_champion_data, get_data_url
 
 
 class StandardGame(Game, MutableGame):
@@ -60,9 +58,11 @@ class StandardGame(Game, MutableGame):
         self._blue = StandardTeam(floor(len(self._players) / 2))
 
     def _initialize_champions(self) -> None:
-        data_url = get_data_url("14.19.1", Language.US)
-        data = get_champion_data(data_url)
-        self._champions = [StandardChampion(cd) for _, cd in data.data.items()]
+        champions = self._champion_loading.load(self)
+        # data_url = get_data_url("14.19.1", Language.US)
+        # data = get_champion_data(data_url)
+        # champions = [StandardChampion(cd) for cd in data.data.values()]
+        self._champions = champions
 
     def new_round(self) -> None:
         self._assign_players()

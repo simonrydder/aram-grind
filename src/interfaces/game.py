@@ -14,6 +14,7 @@ class Game(ABC):
         self._player_assignment = game_factory.player_assignment
         self._champion_assignment = game_factory.champion_assignment
         self._save = game_factory.save_game
+        self._champion_loading = game_factory.champion_loading
 
     @property
     @abstractmethod
