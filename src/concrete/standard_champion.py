@@ -56,7 +56,7 @@ class StandardChampion(Champion):
             available=self._available,
             image=self._image,
             loading=self._loading,
-            tags=self._tags,
+            tags=list(self._tags),
             physical=self._physical,
             defense=self._defense,
             magic=self._magic,
