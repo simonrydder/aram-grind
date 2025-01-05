@@ -1,8 +1,8 @@
 from src.concrete.strategies.champion_assignment.tag_based import (
     TagBasedChampionAssignment,
 )
-from src.concrete.strategies.champion_loading.fixed import (
-    FixedChampionLoadingStrategy,
+from src.concrete.strategies.champion_loading.latest import (
+    LatestChampionLoadingStrategy,
 )
 from src.concrete.strategies.player_assignment.random import (
     RandomPlayerAssignemntStrategy,
@@ -30,4 +30,4 @@ class Production(GameFactory):
 
     @property
     def champion_loading(self) -> ChampionLoadingStrategy:
-        return FixedChampionLoadingStrategy()
+        return LatestChampionLoadingStrategy()
