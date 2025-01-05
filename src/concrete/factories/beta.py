@@ -1,7 +1,7 @@
 from src.concrete.strategies.champion_assignment.random import (
     RandomChampionAssignmentStrategy,
 )
-from src.concrete.strategies.champion_initialization.fixed import (
+from src.concrete.strategies.champion_loading.fixed import (
     FixedChampionLoadingStrategy,
 )
 from src.concrete.strategies.player_assignment.random import (
