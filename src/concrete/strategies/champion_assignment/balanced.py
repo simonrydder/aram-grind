@@ -20,7 +20,7 @@ class BalancedChampionAssignment(ChampionAssignmentStrategy):
             "physical": 1,
             "defence": 1,
             "magic": 1,
-            "difficulty": 0.5,
+            "difficulty": 0.1,
         }
 
     def apply(self, game: Game) -> None:
