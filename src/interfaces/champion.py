@@ -4,6 +4,9 @@ from src.states.champion import ChampionState
 
 
 class Champion(ABC):
+    def __str__(self) -> str:
+        return f"{self.name}: ({self.tags}, ({self.physical}, {self.defense}, {self.magic}, {self.difficulty}))"
+
     @property
     @abstractmethod
     def name(self) -> str:

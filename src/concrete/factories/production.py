@@ -1,5 +1,5 @@
-from src.concrete.strategies.champion_assignment.tag_based import (
-    TagBasedChampionAssignment,
+from src.concrete.strategies.champion_assignment.balanced import (
+    BalancedChampionAssignment,
 )
 from src.concrete.strategies.champion_loading.latest import (
     LatestChampionLoadingStrategy,
@@ -22,7 +22,7 @@ class Production(GameFactory):
 
     @property
     def champion_assignment(self) -> ChampionAssignmentStrategy:
-        return TagBasedChampionAssignment()
+        return BalancedChampionAssignment()
 
     @property
     def save_game(self) -> SaveGameStrategy:

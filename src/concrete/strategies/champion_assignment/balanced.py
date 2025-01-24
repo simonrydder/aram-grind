@@ -80,4 +80,7 @@ class BalancedChampionAssignment(ChampionAssignmentStrategy):
 
         assert isinstance(closest_pair, tuple), "Did not find any pairs"
 
+        red, blue = closest_pair
+        print(f"Red: {red}")
+        print(f"Blue: {blue}")
         return closest_pair
